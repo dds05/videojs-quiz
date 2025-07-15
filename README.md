@@ -11,47 +11,40 @@ It ensures active participation by requiring users to complete the quiz before c
 
 Post installation, import and use the package like shown below:-
 ```
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video.js Quiz Example</title>
-    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
-    <script src="https://unpkg.com/video.js/dist/video.js"></script>
-    <script src="https://unpkg.com/videojs-quiz"></script>
-</head>
-<body>
-    <h1>Video.js Quiz Example</h1>
+import 'videojs-quiz';
 
-    <div data-vjs-player>
-        <video id="my-video" class="video-js" controls width="800" height="400">
-            <source src="video.mp4" type="video/mp4">
-        </video>
-    </div>
+var quizData = [
+  {
+    questionId: '1',
+    time: 5, // Time (in seconds) to pause for the quiz
+    question: 'What is the capital of France?',
+    answers: ['Berlin', 'Madrid', 'Paris'],
+    correctAnswer: 2, // Index of the correct answer
+  },
+  {
+    questionId: '2',
+    time: 10,
+    question: 'Which planet is known as the Red Planet?',
+    answers: ['Earth', 'Mars', 'Jupiter', 'Venus'],
+    correctAnswer: 1,
+  }
+]; 
+   
+ const player = videojs(playerId,options);  //initialise videojs player
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var player = videojs("my-video");
-            var quizData = [
-                {
-                    questionId: "1",
-                    time: 5, // Time (in seconds) to pause for the quiz
-                    question: "What is 2 + 2?",
-                    answers: ["3", "4", "5"],
-                    correctAnswer: 1, // Index of the correct answer
-                }
-            ];
-            player.ready(function () {
-                player.quiz({ quizData: quizData });
-                player.on("quizAnswer", function (e) {
-                    console.log("Selection:", e.detail);
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+  player.on('ready', () => {
+      // initialise quiz data
+      player.quiz({
+        quizData: quizData
+      });
+
+      // listener for answer selection
+      player.on('quizAnswer', (e) => {
+        console.log('Selection: ', e.detail);
+      })
+  })
+
+ 
 ```
 
 
